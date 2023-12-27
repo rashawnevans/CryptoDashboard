@@ -37,6 +37,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Currently not optimized for mobile devices
 - API may not return data if the crypto currency isn't found
 - Max & Min lines may not display properly for cryptocurrencies with very small values
+- When hovering over chart data, current shows unformated timestamp. Would be nice to show formatted date
 
 ## API for Reference
 
