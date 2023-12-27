@@ -1,17 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Crypto } from "../lib/definitions";
+import { Crypto, ApiData } from "../lib/definitions";
 import getCryptoData from "../api/page";
 import { LineChart } from "@mui/x-charts/LineChart";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import { ChartsReferenceLine } from "@mui/x-charts";
-
-import { ChartContainer } from "@mui/x-charts/ChartContainer";
-import { LinePlot, MarkPlot } from "@mui/x-charts/LineChart";
-import { ChartsXAxis } from "@mui/x-charts/ChartsXAxis";
-import { ChartsYAxis } from "@mui/x-charts/ChartsYAxis";
 
 export default function ListItem(props: Crypto) {
   const { name, ticker } = props;
@@ -22,7 +17,6 @@ export default function ListItem(props: Crypto) {
   const [priceChangePercent, setPriceChangePercent] = useState(0);
   const [x, setX] = useState([]);
   const [y, setY] = useState([]);
-  const [xLabels, setXLabels] = useState([]);
 
   const [width, setWidth] = useState(0);
 
@@ -36,10 +30,10 @@ export default function ListItem(props: Crypto) {
   useEffect(() => {
     if (name) {
       getCryptoData(name).then((data: any) => {
-        const allValues = data.data.map((item: any) =>
+        const allValues = data.data.map((item: { priceUsd: string }) =>
           parseFloat(item.priceUsd)
         );
-        const timeValues = data.data.map((item: any) => item.time);
+        const timeValues = data.data.map((item: { time: number }) => item.time);
         setAssestMin(+Math.min(...allValues).toFixed(2));
         setAssestMax(+Math.max(...allValues).toFixed(2));
         const currentPrice = allValues.pop();
@@ -51,8 +45,9 @@ export default function ListItem(props: Crypto) {
         setY(allValues);
         setX(timeValues);
 
-        const dates = timeValues.map((item) => new Date(item).toDateString());
-        setXLabels(dates);
+        const dates = timeValues.map((item: string) =>
+          new Date(item).toDateString()
+        );
       });
     }
   }, [name]);
@@ -81,7 +76,7 @@ export default function ListItem(props: Crypto) {
           %
         </h5>
         <span className="text-5xl ml-2 mr-2"> · </span>
-        <h5>{priceChange}</h5>
+        <h5>${priceChange}</h5>
       </Box>
       {x.length > 0 && y.length > 0 && width && (
         <span style={{ position: "relative", left: -60, zIndex: 100 }}>
