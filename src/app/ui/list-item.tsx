@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { Crypto, ApiData } from "../lib/definitions";
-import getCryptoData from "../api/page";
+// import getCryptoData from "../api/page";
+import getCryptoData from "../lib/helper";
+
 import { LineChart } from "@mui/x-charts/LineChart";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
