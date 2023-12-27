@@ -15,8 +15,8 @@ export default function ListItem(props: Crypto) {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [priceChange, setPriceChange] = useState(0);
   const [priceChangePercent, setPriceChangePercent] = useState(0);
-  const [x, setX] = useState([]);
-  const [y, setY] = useState([]);
+  const [x, setX] = useState<number[]>([]);
+  const [y, setY] = useState<number[]>([]);
 
   const [width, setWidth] = useState(0);
 
@@ -29,14 +29,14 @@ export default function ListItem(props: Crypto) {
 
   useEffect(() => {
     if (name) {
-      getCryptoData(name).then((data: any) => {
+      getCryptoData(name).then((data: { data: ApiData[] }) => {
         const allValues = data.data.map((item: { priceUsd: string }) =>
           parseFloat(item.priceUsd)
         );
         const timeValues = data.data.map((item: { time: number }) => item.time);
         setAssestMin(+Math.min(...allValues).toFixed(2));
         setAssestMax(+Math.max(...allValues).toFixed(2));
-        const currentPrice = allValues.pop();
+        const currentPrice: number = allValues.pop() ?? 0;
         setCurrentPrice(+currentPrice.toFixed(2));
         setPriceChange(+(currentPrice - allValues[0]).toFixed(2));
         setPriceChangePercent(
@@ -44,10 +44,6 @@ export default function ListItem(props: Crypto) {
         );
         setY(allValues);
         setX(timeValues);
-
-        const dates = timeValues.map((item: string) =>
-          new Date(item).toDateString()
-        );
       });
     }
   }, [name]);
