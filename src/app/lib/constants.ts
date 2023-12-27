@@ -18,7 +18,8 @@ export const cryptos: Crypto[] = [
   { name: "internet-computer", ticker: "ICP" },
   { name: "monero", ticker: "XMR" },
 
-  //   { name: "dogecoin", ticker: "DOGE" },
-  //   { name: "bnb", ticker: "BNB" },
-  //   { name: "tron", ticker: "TRX" },
+  // This values give errors due to various reasons
+  // { name: "dogecoin", ticker: "DOGE" }, // Max and min are very small numbers which causes graph errors
+  // { name: "bnb", ticker: "BNB" }, // Not found in api call
+  // { name: "tron", ticker: "TRX" }, // Max & Min values not displayed
 ];
